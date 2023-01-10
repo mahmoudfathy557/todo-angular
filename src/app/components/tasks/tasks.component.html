@@ -1,0 +1,10 @@
+<!-- [task]="task"  ===> [task] is array variable to be passed to 'app-task-item' AND 'task' is output of the loop   -->
+<app-add-task   (onSubmitTask)="handleSubmitTask($any($event))"></app-add-task>
+<app-task-item
+  *ngFor="let task of tasks"
+  [task]="task"
+  (onDeleteTask)="handleDeleteBtn(task)"
+  (onUpdateTask)="handleUpdateBtn(task)"
+  (onReminderTask)="handleReminder(task)"
+ 
+></app-task-item>

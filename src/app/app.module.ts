@@ -3,9 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
-import { AppRoutingModule,
-  //  routingComponents 
-  } from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
  
 
 import { AppComponent } from './app.component';
@@ -19,9 +17,8 @@ import { FooterComponent } from './components/footer/footer.component';
  
 import { PageNotFpundComponent } from './components/page-not-fpund/page-not-fpund.component';
 import { HeaderComponent } from './components/header/header.component';
-import { EmployeeModule } from './feature/employee/employee.module';
-import { MatModule } from './shared/mat/mat.module';
-  
+ 
+ 
 
 
 @NgModule({
@@ -34,12 +31,10 @@ import { MatModule } from './shared/mat/mat.module';
     AddTaskComponent,
     FooterComponent,
     HeaderComponent,
-<<<<<<< HEAD
-    // routingComponents,
-=======
+ 
     routingComponents,
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
     PageNotFpundComponent,
+ 
   ],
   imports: [
     BrowserModule,
@@ -47,8 +42,6 @@ import { MatModule } from './shared/mat/mat.module';
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
-    MatModule,
-    EmployeeModule
      
    
   ],

@@ -17,8 +17,9 @@ import { FooterComponent } from './components/footer/footer.component';
  
 import { PageNotFpundComponent } from './components/page-not-fpund/page-not-fpund.component';
 import { HeaderComponent } from './components/header/header.component';
- 
- 
+import { EmployeeModule } from './feature/employee/employee.module';
+import { MatModule } from './shared/mat/mat.module';
+  
 
 
 @NgModule({
@@ -31,10 +32,8 @@ import { HeaderComponent } from './components/header/header.component';
     AddTaskComponent,
     FooterComponent,
     HeaderComponent,
- 
     routingComponents,
     PageNotFpundComponent,
- 
   ],
   imports: [
     BrowserModule,
@@ -42,6 +41,8 @@ import { HeaderComponent } from './components/header/header.component';
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
+    MatModule,
+    EmployeeModule
      
    
   ],

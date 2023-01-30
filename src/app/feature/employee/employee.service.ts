@@ -15,9 +15,12 @@ const httpOptions = {
 })
 export class EmployeeService {
 
+<<<<<<< HEAD
  private apiUrl = 'http://localhost:5000/employees'
 
 
+=======
+>>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
 
  // private editedTask: Task
  private subject = new Subject<any>()  // observer to receive any update when listening
@@ -33,6 +36,7 @@ export class EmployeeService {
  // Async call  from a file  
 
  // of()=>Returns an Observable instance that synchronously delivers the values provided as arguments.
+<<<<<<< HEAD
  // getEmployees(): Observable<Employee[]> {
  //  const employees = of(Employees)
  //  return employees
@@ -52,6 +56,11 @@ export class EmployeeService {
  addEmp(emp: Employee): Observable<Employee> {
   console.log(emp);
   return this.http.post<Employee>(this.apiUrl, emp, httpOptions)
+=======
+ getEmployees(): Observable<Employee[]> {
+  const employees = of(Employees)
+  return employees
+>>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
  }
 
  // editTask(mployee: Employee): void {

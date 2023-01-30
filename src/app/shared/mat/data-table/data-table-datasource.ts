@@ -46,9 +46,15 @@ export class DataTableDataSource extends DataSource<DataTableItem> {
   sort: MatSort | undefined;
 
 
+<<<<<<< HEAD
   constructor( data?:any ) {
     super();
     this.data=data
+=======
+  constructor(  ) {
+    super();
+ 
+>>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
   }
 
   /**

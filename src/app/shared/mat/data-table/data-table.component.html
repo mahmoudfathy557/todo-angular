@@ -1,8 +1,13 @@
 <div class="mat-elevation-z8">
+<<<<<<< HEAD
  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
        class="mat-elevation-z8">
 
    <ng-container
+=======
+  <table mat-table class="full-width-table" matSort aria-label="Elements"  >
+    <ng-container
+>>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
       *ngFor="let column of displayedColumns"
       [matColumnDef]="column"
     >
@@ -21,6 +26,7 @@
       </ng-template>
     </ng-container>
 
+<<<<<<< HEAD
   
     
 
@@ -31,5 +37,22 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                  showFirstLastButtons
                  aria-label="Select page of periodic elements">
+=======
+ 
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    #paginator
+    [length]="dataSource?.data?.length"
+    [pageIndex]="0"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20]"
+    aria-label="Select page"
+  >
+>>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
   </mat-paginator>
 </div>

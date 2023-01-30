@@ -34,7 +34,11 @@ import { MatModule } from './shared/mat/mat.module';
     AddTaskComponent,
     FooterComponent,
     HeaderComponent,
+<<<<<<< HEAD
     // routingComponents,
+=======
+    routingComponents,
+>>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
     PageNotFpundComponent,
   ],
   imports: [

@@ -63,15 +63,10 @@ export class EmployeeService {
 >>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
  }
 
- // editTask(mployee: Employee): void {
- //  this.editedTask = task
- //  this.subject.next(this.editedTask)
-
- // }
-
- onEditedEmployee(): Observable<any> {
-  return this.subject.asObservable()
+ 
+ updateEmp(emp: Employee): Observable<Employee> {
+  const url = `${this.apiUrl}/${emp.id}`
+  return this.http.put<Employee>(url, emp, httpOptions)
  }
-
 
 }

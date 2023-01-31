@@ -18,11 +18,7 @@ export class EmployeeListComponent implements OnInit {
     this.empService.getEmployees()
       .subscribe({
         next: employees => {
-<<<<<<< HEAD
-          console.log(employees);
-=======
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
-          this.employees = employees
+           this.employees = employees
         },
         error: error => {
           this.errorMessage = error.message

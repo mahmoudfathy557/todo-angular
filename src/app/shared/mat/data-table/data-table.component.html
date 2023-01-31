@@ -18,9 +18,8 @@
 
       <!-- actions btns -->
       <ng-template #elseTemplate>
-        <td mat-cell *matCellDef="let object">
-          <button mat-raised-button color="primary" (click)="onView()" >View</button>
-          <button mat-raised-button color="accent" (click)="onEdit()" >Edit</button>
+        <td mat-cell *matCellDef="let object"> 
+          <button mat-raised-button color="accent"  routerLink="/edit-emp/{{object.id}}">Edit</button>
           <button mat-raised-button color="warn" (click)="deleteEmp(object)" >Delete</button>
         </td>
       </ng-template>

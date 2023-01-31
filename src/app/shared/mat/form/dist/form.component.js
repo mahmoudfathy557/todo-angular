@@ -10,18 +10,39 @@ exports.FormComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var FormComponent = /** @class */ (function () {
-    function FormComponent(fb, empService) {
+    function FormComponent(fb, empService, router, route) {
         this.fb = fb;
         this.empService = empService;
+        this.router = router;
+        this.route = route;
     }
     FormComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.registrationForm = this.fb.group({
+            id: [''],
             firstName: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3)]],
             lastName: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3)]],
             email: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3)]],
             age: [0, [forms_1.Validators.required]],
             hiredAt: ['', [forms_1.Validators.required]]
         });
+        var urlId = this.route.snapshot.paramMap.get('id');
+        //edit emp
+        if (urlId) {
+            this.urlId = (urlId);
+            this.empService.getEmployees()
+                .subscribe({
+                next: function (employees) {
+                    var editedEmp = employees.find(function (e) { return Number(e.id) === Number(urlId); });
+                    // console.log(editedEmp);
+                    _this.registrationForm.patchValue(editedEmp ? editedEmp : {});
+                },
+                error: function (error) {
+                    error.message;
+                    console.error(error);
+                }
+            });
+        }
     };
     Object.defineProperty(FormComponent.prototype, "firstName", {
         get: function () {
@@ -59,11 +80,21 @@ var FormComponent = /** @class */ (function () {
         configurable: true
     });
     FormComponent.prototype.onSubmit = function () {
-        this.addEmp(this.registrationForm.value);
+        // edit emp
+        if (this.urlId) {
+            this.editEmp(this.registrationForm.value);
+        }
+        else {
+            //  add emp
+            this.addEmp(this.registrationForm.value);
+        }
     };
     __decorate([
         core_1.Input()
     ], FormComponent.prototype, "addEmp");
+    __decorate([
+        core_1.Input()
+    ], FormComponent.prototype, "editEmp");
     FormComponent = __decorate([
         core_1.Component({
             selector: 'app-form',

@@ -5,11 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router'; 
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { Employee } from 'src/app/feature/employee/Employee';
 import { EmployeeService } from 'src/app/feature/employee/employee.service';
- 
+
 
 @Component({
   selector: 'app-form',
@@ -20,12 +20,12 @@ export class FormComponent implements OnInit {
   registrationForm: FormGroup;
   @Input() addEmp: (args: any) => void
   @Input() editEmp: (args: any) => void
-  urlId:string
-  editedEmp?:Employee
+  urlId: string
+  editedEmp?: Employee
 
 
 
-  constructor(private fb: FormBuilder, private empService: EmployeeService, private router: Router, private route: ActivatedRoute,) {}
+  constructor(private fb: FormBuilder, private empService: EmployeeService, private router: Router, private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({
@@ -40,15 +40,15 @@ export class FormComponent implements OnInit {
 
     const urlId = this.route.snapshot.paramMap.get('id');
     //edit emp
-    if(urlId){
+    if (urlId) {
       this.urlId = (urlId)
       this.empService.getEmployees()
         .subscribe({
           next: employees => {
-             
-            const editedEmp = employees.find(e=>Number(e.id)===Number(urlId))
-            // console.log(editedEmp);
-            this.registrationForm.patchValue(editedEmp?editedEmp:{});
+
+            const editedEmp = employees.find(e => Number(e.id) === Number(urlId))
+
+            this.registrationForm.patchValue(editedEmp ? editedEmp : {});
           },
           error: error => {
             error.message
@@ -57,9 +57,9 @@ export class FormComponent implements OnInit {
           }
         })
     }
-  
-     
-  
+
+
+
   }
 
   get firstName() {
@@ -84,9 +84,9 @@ export class FormComponent implements OnInit {
 
   onSubmit() {
     // edit emp
-    if(this.urlId){
+    if (this.urlId) {
       this.editEmp(this.registrationForm.value)
-    }else{
+    } else {
       //  add emp
       this.addEmp(this.registrationForm.value)
     }

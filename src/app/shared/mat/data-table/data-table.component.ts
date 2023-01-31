@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, Input, ViewChild, OnInit,  SimpleChanges, OnChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 
@@ -13,28 +12,18 @@ export interface PeriodicElement {
   weight: number;
   symbol: string;
 }
- 
+
 /**
  * @title Table with sorting
  */
-=======
-import { AfterViewInit, Component, Input, ViewChild, OnInit, Output, EventEmitter } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTable } from '@angular/material/table';
-import { DataTableDataSource, DataTableItem } from './data-table-datasource';
-import { Employee } from 'src/app/feature/employee/Employee';
-
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']
 })
-<<<<<<< HEAD
 export class DataTableComponent implements AfterViewInit, OnInit, OnChanges {
   displayedColumns: string[] = [];
-  dataSource :any
+  dataSource: any
 
   constructor(private _liveAnnouncer: LiveAnnouncer) { }
 
@@ -45,31 +34,10 @@ export class DataTableComponent implements AfterViewInit, OnInit, OnChanges {
   @Input() showBtns: boolean
   @Input() deleteEmp: (args: Employee) => void
 
-=======
-export class DataTableComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<DataTableItem>;
-  dataSource: DataTableDataSource;
-  @Input() tableData: any[]
-  @Input() showBtns: boolean
-  @Input() deleteEmp: (args:Employee)=>void
-  @Output() onDeleteEmp: EventEmitter<Employee> = new EventEmitter()
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  // displayedColumns = ['id', 'name'];
-  displayedColumns: string[] = []
- 
-
-  constructor() {
-    this.dataSource = new DataTableDataSource();
-  }
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-<<<<<<< HEAD
     // this.displayedColumns = Object.keys(this.tableData[0])
 
     // if (this.tableData && this.tableData.length >0) {
@@ -86,7 +54,7 @@ export class DataTableComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -117,27 +85,4 @@ export class DataTableComponent implements AfterViewInit, OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-=======
-    this.displayedColumns = Object.keys(this.tableData[0])
-
-  //check if we should add actions column 
-    if (this.showBtns){
-      this.displayedColumns.push('actions')
-    }
- 
-    this.dataSource.data = this.tableData;
-    
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.tableData);
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    this.table.dataSource = this.dataSource;
-  }
-
-
-
-
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
 }

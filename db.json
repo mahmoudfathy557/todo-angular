@@ -30,7 +30,35 @@
       "lastName": "Fathy",
       "email": "mahmoudfathy4121@gmail.com",
       "age": 99,
-      "hiredAt": "1/1"
+      "hiredAt": "1/1/1"
+    },
+    {
+      "id": 15,
+      "firstName": "aaaa",
+      "lastName": "aaaa",
+      "email": "a@a11a",
+      "age": 2,
+      "hiredAt": "1/1/2"
+    }
+  ],
+  "departments": [
+    {
+      "id": 1,
+      "name": "hr",
+      "manager": "ali",
+      "emps_no": 14
+    },
+    {
+      "id": 0,
+      "name": "IT",
+      "manager": "Mahmoud",
+      "emps_no": 9
+    },
+    {
+      "id": 63,
+      "name": "accouning",
+      "manager": "ibra",
+      "emps_no": 5
     }
   ]
 }

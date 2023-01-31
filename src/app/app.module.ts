@@ -1,46 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { HttpClientModule } from '@angular/common/http'
-import { FormsModule } from '@angular/forms';
-import { AppRoutingModule,
-  //  routingComponents 
-  } from './app-routing.module';
- 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  AppRoutingModule,
+  //  routingComponents
+} from './app-routing.module';
 
 import { AppComponent } from './app.component';
- 
-import { ButtonComponent } from './components/button/button.component';
-import { TasksComponent } from './components/tasks/tasks.component';
-import { TaskItemComponent } from './components/task-item/task-item.component';
-import { AddTaskComponent } from './components/add-task/add-task.component';
-import { AboutComponent } from './components/about/about.component';
-import { FooterComponent } from './components/footer/footer.component';
- 
-import { PageNotFpundComponent } from './components/page-not-fpund/page-not-fpund.component';
-import { HeaderComponent } from './components/header/header.component';
+
 import { EmployeeModule } from './feature/employee/employee.module';
 import { MatModule } from './shared/mat/mat.module';
-  
-
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { PrimeModule } from './shared/primeNg/prime.module';
+import { HomeComponent } from './feature/home/home.component';
+import { HomeModule } from './feature/home/home.module';
+import { DepartmentsListComponent } from './feature/departments/departments-list/departments-list.component';
+import { DepartmentsModule } from './feature/departments/departments.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  
-    ButtonComponent,
-    TasksComponent,
-    TaskItemComponent,
-    AddTaskComponent,
-    FooterComponent,
-    HeaderComponent,
-<<<<<<< HEAD
-    // routingComponents,
-=======
-    routingComponents,
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
-    PageNotFpundComponent,
-  ],
+  declarations: [AppComponent, PageNotFoundComponent, HomeComponent, DepartmentsListComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -48,11 +28,13 @@ import { MatModule } from './shared/mat/mat.module';
     HttpClientModule,
     FormsModule,
     MatModule,
-    EmployeeModule
-     
-   
+    EmployeeModule,
+    DepartmentsModule,
+    ReactiveFormsModule,
+    PrimeModule,
+    HomeModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

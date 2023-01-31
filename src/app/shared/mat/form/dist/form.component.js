@@ -34,6 +34,7 @@ var FormComponent = /** @class */ (function () {
                 .subscribe({
                 next: function (employees) {
                     var editedEmp = employees.find(function (e) { return Number(e.id) === Number(urlId); });
+                    // console.log(editedEmp);
                     _this.registrationForm.patchValue(editedEmp ? editedEmp : {});
                 },
                 error: function (error) {

@@ -17,9 +17,9 @@ import { EmployeeService } from 'src/app/feature/employee/employee.service';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit {
-  registrationForm: FormGroup;
   @Input() addEmp: (args: any) => void
   @Input() editEmp: (args: any) => void
+  registrationForm: FormGroup;
   urlId: string
   editedEmp?: Employee
 
@@ -47,7 +47,7 @@ export class FormComponent implements OnInit {
           next: employees => {
 
             const editedEmp = employees.find(e => Number(e.id) === Number(urlId))
-
+            // console.log(editedEmp);
             this.registrationForm.patchValue(editedEmp ? editedEmp : {});
           },
           error: error => {

@@ -2,12 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 ;
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-<<<<<<< HEAD
 import { ReactiveFormsModule } from '@angular/forms';
 
-=======
- 
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,36 +15,25 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-<<<<<<< HEAD
 import { RouterModule, Routes } from '@angular/router';
 import { FormComponent } from './form/form.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-
+ 
 const routes: Routes = [
- 
- 
-]
-=======
- 
 
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
+
+]
 
 @NgModule({
   declarations: [
     MainNavComponent,
-<<<<<<< HEAD
     DataTableComponent,
     FormComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
-=======
-    DataTableComponent
-  ],
-  imports: [
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
     CommonModule,
     BrowserAnimationsModule,
     LayoutModule,
@@ -59,7 +44,6 @@ const routes: Routes = [
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-<<<<<<< HEAD
     MatFormFieldModule,
     MatSortModule,
     FormsModule,
@@ -67,19 +51,12 @@ const routes: Routes = [
     ReactiveFormsModule
 
   ],
-  exports:[
+  exports: [
     RouterModule,
     MainNavComponent,
     DataTableComponent,
-FormComponent,
-=======
-    MatSortModule,
-  ],
-  exports:[
-    MainNavComponent,
-    DataTableComponent
-
->>>>>>> c225999c3ff96ed89bab26d84f33e3a7628ee015
+    FormComponent,
+    MatButtonModule,
   ]
 })
 export class MatModule { }

@@ -10,9 +10,9 @@ import { Observable, switchMap } from 'rxjs';
   styleUrls: ['./add-employee.component.css']
 })
 export class AddEmployeeComponent implements OnInit {
-    emp$: Observable<Employee[]>;
+  emp$: Observable<Employee[]>;
   selectedId: number;
-  employees:Employee
+  employees: Employee
 
   constructor(private empService: EmployeeService, private router: Router, private route: ActivatedRoute) { }
 
@@ -20,7 +20,7 @@ export class AddEmployeeComponent implements OnInit {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-        this.route.paramMap.pipe(
+    this.route.paramMap.pipe(
       switchMap(params => {
         console.log(params);
         // this.selectedId = Number(params.get('id'));
@@ -32,7 +32,7 @@ export class AddEmployeeComponent implements OnInit {
 
 
   addEmp(emp: Employee) {
-  
+
     emp.id = Math.floor(Math.random() * 100) + 3
     this.empService.addEmp(emp).subscribe(
       response => console.log('Success!', response),
@@ -41,8 +41,8 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   editEmp(emp: Employee) {
- 
-    this.empService.updateEmp(emp).subscribe(emp=>console.log(emp))
-   
+
+    this.empService.updateEmp(emp).subscribe(emp => console.log(emp))
+
   }
 }

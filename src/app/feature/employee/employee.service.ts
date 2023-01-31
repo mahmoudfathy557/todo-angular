@@ -15,11 +15,29 @@ const httpOptions = {
 })
 export class EmployeeService {
 
-
   private apiUrl = 'http://localhost:5000/employees'
 
 
+
+  // private editedTask: Task
+  private subject = new Subject<any>()  // observer to receive any update when listening
+
+
+
+
+
   constructor(private http: HttpClient) { }
+
+
+
+  // Async call  from a file  
+
+  // of()=>Returns an Observable instance that synchronously delivers the values provided as arguments.
+  // getEmployees(): Observable<Employee[]> {
+  //  const employees = of(Employees)
+  //  return employees
+  // }
+
 
   getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.apiUrl)
@@ -32,12 +50,9 @@ export class EmployeeService {
   }
 
   addEmp(emp: Employee): Observable<Employee> {
-   
+    console.log(emp);
     return this.http.post<Employee>(this.apiUrl, emp, httpOptions)
-
   }
-
-
 
 
   updateEmp(emp: Employee): Observable<Employee> {

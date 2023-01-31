@@ -1,0 +1,69 @@
+ <div class="wrapper">
+
+  <h1>Mutate Department list</h1>
+
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" >
+   
+ 
+   <!-- name -->
+    <span class="p-float-label custom-input">
+       <input id="float-input" type="text" pInputText 
+           [class.is-invalid]="name?.invalid && name?.touched"
+      formControlName="name"
+       > 
+       <label for="float-input">name</label>
+           <div *ngIf="name?.invalid && name?.touched">
+      <small class="text-danger" *ngIf="name.errors?.required"
+        >name is required</small
+      >
+      <small class="text-danger" *ngIf="name.errors?.minlength"
+        >name must be at least 3 characters</small
+      >
+    </div>
+   </span>
+
+      <!-- manager -->
+    <span class="p-float-label custom-input">
+       <input id="float-input" type="text" pInputText 
+           [class.is-invalid]="manager?.invalid && manager?.touched"
+      formControlName="manager"
+       > 
+       <label for="float-input">manager</label>
+           <div *ngIf="manager?.invalid && manager?.touched">
+      <small class="text-danger" *ngIf="manager.errors?.required"
+        >manager is required</small
+      >
+      <small class="text-danger" *ngIf="manager.errors?.minlength"
+        >manager must be at least 3 characters</small
+      >
+    </div>
+   </span>
+
+       <!-- emps no -->
+    <span class="p-float-label custom-input">
+       <input id="float-input" type="number" pInputText 
+           [class.is-invalid]="emps_no?.invalid && emps_no?.touched"
+      formControlName="emps_no"
+       > 
+       <label for="float-input">Employees number</label>
+           <div *ngIf="emps_no?.invalid && emps_no?.touched">
+      <small class="text-danger" *ngIf="emps_no.errors?.required"
+        >Employees number is required</small
+      >
+      <small class="text-danger" *ngIf="emps_no.errors?.minlength"
+        >emps_no must be at least 3 characters</small
+      >
+    </div>
+   </span>
+    
+ 
+      <button   color="primary"
+     type="submit"
+     [disabled]="!registrationForm.valid"
+    pButton
+    label="Submit"
+   ></button>
+  
+  </form>
+  {{this.registrationForm.value | json}}
+ </div>

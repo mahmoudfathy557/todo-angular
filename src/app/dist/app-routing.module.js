@@ -10,14 +10,21 @@ exports.AppRoutingModule = void 0;
 var add_employee_component_1 = require("./feature/employee/add-employee/add-employee.component");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var page_not_fpund_component_1 = require("./components/page-not-fpund/page-not-fpund.component");
 var employee_list_component_1 = require("./feature/employee/employee-list/employee-list.component");
+var page_not_found_component_1 = require("./shared/page-not-found/page-not-found.component");
+var home_component_1 = require("./feature/home/home.component");
+var departments_list_component_1 = require("./feature/departments/departments-list/departments-list.component");
+var add_department_component_1 = require("./feature/departments/add-department/add-department.component");
 var routes = [
-    { path: '', component: employee_list_component_1.EmployeeListComponent },
+    { path: '', component: home_component_1.HomeComponent },
     // { path: '', redirectTo: 'tasks', pathMatch: 'full' }, //default router
+    { path: 'employees', component: employee_list_component_1.EmployeeListComponent },
+    { path: 'departments', component: departments_list_component_1.DepartmentsListComponent },
     { path: 'add-emp', component: add_employee_component_1.AddEmployeeComponent },
     { path: 'edit-emp/:id', component: add_employee_component_1.AddEmployeeComponent },
-    { path: '**', component: page_not_fpund_component_1.PageNotFpundComponent }
+    { path: 'add-dep', component: add_department_component_1.AddDepartmentComponent },
+    { path: 'edit-dep/:id', component: add_department_component_1.AddDepartmentComponent },
+    { path: '**', component: page_not_found_component_1.PageNotFoundComponent }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {

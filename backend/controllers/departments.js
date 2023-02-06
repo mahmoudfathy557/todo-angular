@@ -1,14 +1,16 @@
 const fs = require('node:fs/promises')
 const path = require('node:path')
+const {
+  readSpecificDbData,
+  readAllDbData,
+  writeDbData,
+} = require('../middleware/manipulate-data')
 const dbPath = path.join(__dirname, '../db') + '/db.json'
 
-// const db = require('../db/db.json')
-
+ 
 const getAllDepartments = async (req, res) => {
   try {
-    const db = await fs.readFile(dbPath, 'utf-8')
-    const parsedData = JSON.parse(db)
-    const deps = parsedData.departments
+    const deps = await readSpecificDbData(dbPath, 'departments')
 
     res.status(200).json(deps)
   } catch (error) {
@@ -18,17 +20,13 @@ const getAllDepartments = async (req, res) => {
 
 const addDepartment = async (req, res) => {
   const newDep = req.body
-  // const pathDirname = path.join(__dirname + path,'db.json')
   try {
-    const db = await fs.readFile(dbPath, 'utf-8')
-    const parsedData = JSON.parse(db)
+    const db = await readAllDbData(dbPath)
+    const deps = await readSpecificDbData(dbPath, 'departments')
 
-    parsedData.departments.push(newDep)
+    deps.push(newDep)
 
-    const result = await fs.writeFile(
-      dbPath,
-      JSON.stringify(parsedData, null, 2)
-    )
+    await writeDbData(dbPath, { ...db, departments: deps })
 
     res.status(200).json({ status: 'ok', msg: 'new dep is added' })
   } catch (error) {
@@ -40,17 +38,12 @@ const deleteDepartment = async (req, res) => {
   const { id } = req.params
 
   try {
-    const db = await fs.readFile(dbPath, 'utf-8')
-    const parsedDb = JSON.parse(db)
-    let newDeps = parsedDb.departments.filter(
-      (dep) => Number(dep.id) !== Number(id)
-    )
+    const db = await readAllDbData(dbPath)
+    const deps = await readSpecificDbData(dbPath, 'departments')
 
-    const result = await fs.writeFile(
-      dbPath,
-      JSON.stringify({ ...parsedDb, departments: newDeps }, null, 2)
-    )
-    console.log(result)
+    let newDeps = deps.filter((dep) => Number(dep.id) !== Number(id))
+    await writeDbData(dbPath, { ...db, departments: newDeps })
+
     res.status(200).json({ status: 'ok', msg: 'new dep is added' })
   } catch (err) {
     console.log(err)
@@ -62,16 +55,13 @@ const updateDepartment = async (req, res) => {
   const updatedDep = req.body
 
   try {
-    const db = await fs.readFile(dbPath, 'utf-8')
-    const parsedDb = JSON.parse(db)
-    let deps = [...parsedDb.departments]
-    prevDep = deps.findIndex((obj) => Number(obj.id) === Number(id))
-    deps[prevDep] = updatedDep
+    const db = await readAllDbData(dbPath)
+    let deps = await readSpecificDbData(dbPath, 'departments')
 
-    await fs.writeFile(
-      dbPath,
-      JSON.stringify({ ...parsedDb, departments: deps }, null, 2)
-    )
+    let prevDep = deps.findIndex((obj) => Number(obj.id) === Number(id))
+    deps[prevDep] = updatedDep
+    await writeDbData(dbPath, { ...db, departments: deps })
+
     res.status(200).json({ status: 'ok', msg: '  dep is updated' })
   } catch (err) {
     console.log(err)

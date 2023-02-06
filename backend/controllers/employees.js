@@ -2,9 +2,7 @@ const fs = require('node:fs/promises')
 const path = require('node:path')
 const dbPath = path.join(__dirname, '../db') + '/db.json'
 
-// const db = require('../db/db.json')
-
-const getAllEmps= async (req, res) => {
+const getAllEmps = async (req, res) => {
   try {
     const db = await fs.readFile(dbPath, 'utf-8')
     const parsedData = JSON.parse(db)
@@ -18,7 +16,6 @@ const getAllEmps= async (req, res) => {
 
 const addEmp = async (req, res) => {
   const newEmp = req.body
-  // const pathDirname = path.join(__dirname + path,'db.json')
   try {
     const db = await fs.readFile(dbPath, 'utf-8')
     const parsedData = JSON.parse(db)
@@ -50,7 +47,7 @@ const deleteEmp = async (req, res) => {
       dbPath,
       JSON.stringify({ ...parsedDb, employees: newEmps }, null, 2)
     )
-     res.status(200).json({ status: 'ok', msg: 'new emp is added' })
+    res.status(200).json({ status: 'ok', msg: 'new emp is added' })
   } catch (err) {
     console.log(err)
   }

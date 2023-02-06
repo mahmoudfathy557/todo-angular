@@ -73,20 +73,8 @@
     {
       "id": 24,
       "name": "hr",
-      "manager": "ali",
+      "manager": "aliss",
       "emps_no": 6
-    },
-    {
-      "id": 60,
-      "name": "finance",
-      "manager": "ibra",
-      "emps_no": 5
-    },
-    {
-      "id": 5,
-      "name": "mahmoud",
-      "manager": "oud",
-      "emps_no": 3
     }
   ]
 }

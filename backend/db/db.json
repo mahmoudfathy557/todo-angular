@@ -68,13 +68,7 @@
       "id": 63,
       "name": "accouning",
       "manager": "ibra",
-      "emps_no": 5
-    },
-    {
-      "id": 24,
-      "name": "hr",
-      "manager": "aliss",
-      "emps_no": 6
+      "emps_no": 4
     }
   ]
 }

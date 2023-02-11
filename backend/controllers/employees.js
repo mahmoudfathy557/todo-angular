@@ -1,11 +1,11 @@
 const fs = require('node:fs/promises')
 const path = require('node:path')
 const dbPath = path.join(__dirname, '../db') + '/db.json'
-
+//create http server
 const getAllEmps = async (req, res) => {
   try {
     const db = await fs.readFile(dbPath, 'utf-8')
-    const parsedData = JSON.parse(db)
+     const parsedData = JSON.parse(db)
     const emps = parsedData.employees
 
     res.status(200).json(emps)
@@ -13,6 +13,7 @@ const getAllEmps = async (req, res) => {
     console.log(error)
   }
 }
+
 
 const addEmp = async (req, res) => {
   const newEmp = req.body

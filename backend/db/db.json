@@ -33,14 +33,6 @@
       "hiredAt": "1/1"
     },
     {
-      "id": 47,
-      "firstName": "essam11",
-      "lastName": "essam11",
-      "email": "mahmoudfathy4121@gmail.com",
-      "age": 20,
-      "hiredAt": "1/1"
-    },
-    {
       "id": 74,
       "firstName": "mmmm",
       "lastName": "mmmm",
@@ -69,6 +61,12 @@
       "name": "accouning",
       "manager": "ibra",
       "emps_no": 4
+    },
+    {
+      "id": 8,
+      "name": "hrr",
+      "manager": "aaaa",
+      "emps_no": 9
     }
   ]
 }

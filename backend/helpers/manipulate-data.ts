@@ -3,6 +3,7 @@ import fs = require('node:fs/promises')
 
 
 class ManipulateData {
+  
   readAllDbData = async <T>(path:string):Promise<T[]> => {
     const db = await fs.readFile(path, 'utf-8')
     const parsedData = JSON.parse(db)

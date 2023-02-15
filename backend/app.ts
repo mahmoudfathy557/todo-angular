@@ -26,8 +26,7 @@ app.use('/api/v1/emps', empsRouter)
 
 
 
-app.get('/', (req, res) => res.send('Hello World!sss'))
-
+ 
 
 const start = async () => {
  try {

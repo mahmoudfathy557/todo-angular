@@ -1,0 +1,10 @@
+ <div class="wrapper">
+
+  <h1>Employee List - Angular Material </h1>
+
+  <button mat-raised-button color="primary" routerLink="/add-emp" class="add-emp">Add Employee</button>
+  
+  <app-data-table [tableData]="employees" [showBtns]='true' [deleteEmp]="deleteEmp" ></app-data-table>
+   
+   
+ </div>      

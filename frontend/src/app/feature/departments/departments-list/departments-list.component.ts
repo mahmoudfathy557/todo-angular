@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { Department } from '../department';
+import { Department } from '../department.model';
 import {
   GET_DEPARTMENT,
   GET_DEPARTMENTS,
   REMOVE_DEPARTMENT,
 } from '../graphql-queries';
+import { Observable } from 'rxjs';
+import { DepartmentState } from '../store/department.reducer';
+import { Store, select } from '@ngrx/store';
+import { selectDepartments } from '../store/department.selectors';
+import { deleteDepartment, loadDepartments } from '../store/department.actions';
 
 @Component({
   selector: 'app-departments-list',
@@ -14,32 +19,17 @@ import {
 })
 export class DepartmentsListComponent implements OnInit {
   deps: Department[];
+  deps$!: Observable<Department[]>;
   loading: boolean;
 
   cols: any[];
 
-  constructor(private apollo: Apollo) {}
-
-  // getDep() {
-  //   return this.apollo
-  //     .watchQuery<any>({
-  //       query: GET_DEPARTMENT,
-  //       variables: { departmentId: '63f211f08604c2651986c027' },
-  //     })
-  //     .valueChanges.subscribe(({ data, loading }) => {
-  //       console.log(data);
-  //     });
-  // }
+  constructor(private apollo: Apollo, private store: Store<DepartmentState>) {}
 
   async getDeps() {
-    return this.apollo
-      .watchQuery<any>({
-        query: GET_DEPARTMENTS,
-      })
-      .valueChanges.subscribe(({ data, loading }) => {
-         this.loading = loading;
-        this.deps = data.departments;
-      });
+    this.store.dispatch(loadDepartments());
+
+    this.deps$ = this.store.pipe(select(selectDepartments));
   }
 
   ngOnInit() {
@@ -54,22 +44,6 @@ export class DepartmentsListComponent implements OnInit {
   }
 
   deleteDep(dep: Department) {
-      this.apollo
-        .mutate({
-          mutation: REMOVE_DEPARTMENT,
-          variables: {
-            removeDepartmentId: dep.id,
-          },
-          refetchQueries: [{ query: GET_DEPARTMENTS }],
-        })
-        .subscribe(
-          ({ data }) => {
-            console.log('got data', data);
-           },
-          (error) => {
-            console.log('there was an error sending the query', error);
-          }
-        );
- 
+    this.store.dispatch(deleteDepartment({ id: String(dep.id) }));
   }
 }

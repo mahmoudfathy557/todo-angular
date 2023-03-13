@@ -1,4 +1,6 @@
-import { gql } from 'apollo-angular';
+// import { gql } from 'apollo-angular';
+
+import { gql } from "./graphql.service";
 
 export const GET_DEPARTMENTS = gql`
   query getDepartments {

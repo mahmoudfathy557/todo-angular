@@ -4,7 +4,7 @@
 
  <button pButton type="button" class="p-button-raised p-button-rounded p-button-success" routerLink="/add-dep" >Add Department</button>
  <div class="card">
- <p-table [columns]="cols" [value]="deps" [tableStyle]="{'min-width': '50rem'}">
+ <p-table [columns]="cols" [value]="deps$ | async" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th *ngFor="let col of columns">

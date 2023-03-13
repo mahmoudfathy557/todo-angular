@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Department } from '../department';
- import { ActivatedRoute, Router } from '@angular/router';
+import { Department } from '../department.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Message, MessageService } from 'primeng/api';
 import {
   ADD_DEPARTMENT,
@@ -9,6 +9,15 @@ import {
   UPDATE_DEPARTMENT,
 } from '../graphql-queries';
 import { Apollo } from 'apollo-angular';
+import { DepartmentState } from '../store/department.reducer';
+import { Store, select } from '@ngrx/store';
+import {
+  addDepartment,
+  loadDepartment,
+  updateDepartment,
+} from '../store/department.actions';
+import { selectedDepartment } from '../store/department.selectors';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'app-add-department',
@@ -18,16 +27,17 @@ import { Apollo } from 'apollo-angular';
 })
 export class AddDepartmentComponent implements OnInit {
   registrationForm: FormGroup;
-  urlId: string;
+  depId: string;
   editedDep?: Department;
   msgs: Message[] = [];
 
   constructor(
     private fb: FormBuilder,
-     private router: Router,
+    private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private store: Store<DepartmentState>
   ) {}
 
   ngOnInit(): void {
@@ -37,20 +47,14 @@ export class AddDepartmentComponent implements OnInit {
       emps_no: [, [Validators.required]],
     });
 
-    const urlId = this.route.snapshot.paramMap.get('id');
+    const depId = this.route.snapshot.paramMap.get('id');
     //edit emp
-    if (urlId) {
-      this.urlId = urlId;
-      this.apollo
-        .watchQuery<any>({
-          query: GET_DEPARTMENTS,
-        })
-        .valueChanges.subscribe(({ data, loading }) => {
-          const editedDep = data.departments.find(
-            (e: any) => String(e.id) === String(urlId)
-          );
-          this.registrationForm.patchValue(editedDep ? editedDep : {});
-        });
+    if (depId) {
+      this.depId = depId;
+      this.store.dispatch(loadDepartment({ id: depId }));
+      this.store.pipe(select(selectedDepartment)).subscribe((dep) => {
+        this.registrationForm.patchValue(dep ? dep : {});
+      });
     }
   }
 
@@ -68,53 +72,34 @@ export class AddDepartmentComponent implements OnInit {
 
   onSubmit() {
     // edit emp
-
-    if (this.urlId) {
-      const updatedDep = { ...this.registrationForm.value } as Department;
-      this.apollo
-        .mutate({
-          mutation: UPDATE_DEPARTMENT,
-          variables: {
-            updateDepartmentId: this.urlId,
-            updatedDepartmentData: updatedDep,
-          },
-          refetchQueries: [{ query: GET_DEPARTMENTS }],
-        })
-
-        .subscribe({
-          next: (v) => console.log(v),
-          error: (e) => {
-            console.log(e);
-            this.showViaService('error', e.message);
-          },
-          complete: () =>
-            this.showViaService(
-              'success',
-              '  Department is updated Successfully'
-            ),
-        });
+    if (this.depId) {
+      const updatedProduct: Update<Department> = {
+        id: this.depId,
+        changes: this.registrationForm.value,
+      };
+      // const updatedDep = { ...this.registrationForm.value } as Department;
+      this.store.dispatch(updateDepartment({ department: updatedProduct }));
+      this.store.subscribe((state) => {
+        console.log(state);
+        if (state.error) {
+          this.showViaService('error', state.error.message);
+        } else {
+          this.showViaService('success', 'Department is updated Successfully');
+        }
+      });
     }
     //  add emp
     else {
       const newDep = this.registrationForm.value as Department;
-      this.apollo
-        .mutate({
-          mutation: ADD_DEPARTMENT,
-          variables: {
-            newDepartmentData: newDep,
-          },
-          refetchQueries: [{ query: GET_DEPARTMENTS }],
-        })
-
-        .subscribe({
-          next: (v) => console.log(v),
-          error: (e) => {
-            console.log(e);
-            this.showViaService('error', e.message);
-          },
-          complete: () =>
-            this.showViaService('success', 'New Department is added'),
-        });
+      this.store.dispatch(addDepartment({ department: newDep }));
+      this.store.subscribe((state) => {
+        console.log(state);
+        if (state.error) {
+          this.showViaService('error', state.error.message);
+        } else {
+          this.showViaService('success', 'New Department is added');
+        }
+      });
     }
   }
 

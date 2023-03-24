@@ -88,6 +88,7 @@ export class AddDepartmentComponent implements OnInit {
         }
       });
     }
+
     //  add emp
     else {
       const newDep = this.registrationForm.value as Department;

@@ -1,20 +1,24 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as DepartmentActions from './department.actions';
- import { Department } from '../department.model';
+import { Department } from '../department.model';
 
-export const departmentsFeatureKey = 'departments';
+export const departmentsFeatureKey = 'departmentsModule';
 
 export interface DepartmentState extends EntityState<Department> {
   // additional entities state properties
+  departments: Department[];
   error: any;
   selectedDepartment?: Department;
 }
- 
-export const adapter: EntityAdapter<Department> = createEntityAdapter<Department>();
+
+export const adapter: EntityAdapter<Department> =
+  createEntityAdapter<Department>();
 
 export const initialState: DepartmentState = adapter.getInitialState({
   // additional entity state properties
+  departments: [],
+
   error: undefined,
   selectedDepartment: undefined,
 });
@@ -31,9 +35,9 @@ export const reducer = createReducer(
   }),
 
   // Get All Departments
-  on(DepartmentActions.loadDepartmentsSuccess, (state, action) =>
-    adapter.addMany(action.departments, state)
-  ),
+  on(DepartmentActions.loadDepartmentsSuccess, (state, action) => {
+    return { ...state, departments: action.departments };
+  }),
   on(DepartmentActions.loadDepartmentsFailure, (state, action) => {
     return { ...state, error: action.error };
   }),

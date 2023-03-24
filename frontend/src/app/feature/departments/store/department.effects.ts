@@ -25,10 +25,18 @@ import {
   deleteDepartment,
   deleteDepartmentSuccess,
   deleteDepartmentFailure,
+  updateDepartmentSuccess,
+  updateDepartmentFailure,
 } from './department.actions';
 import { Router } from '@angular/router';
 import { GraphQLService } from '../graphql.service';
-import { ADD_DEPARTMENT, GET_DEPARTMENT, GET_DEPARTMENTS, REMOVE_DEPARTMENT, UPDATE_DEPARTMENT } from '../graphql-queries';
+import {
+  ADD_DEPARTMENT,
+  GET_DEPARTMENT,
+  GET_DEPARTMENTS,
+  REMOVE_DEPARTMENT,
+  UPDATE_DEPARTMENT,
+} from '../graphql-queries';
 
 @Injectable()
 export class DepartmentEffects {
@@ -74,7 +82,7 @@ export class DepartmentEffects {
     this.actions$.pipe(
       ofType(loadDepartment),
       exhaustMap((action) =>
-        this.graphql.fetch(GET_DEPARTMENT, { departmentId:action.id}).pipe(
+        this.graphql.fetch(GET_DEPARTMENT, { departmentId: action.id }).pipe(
           map((res: any) =>
             loadDepartmentSuccess({ selectedDepartment: res.data.department })
           ),
@@ -85,17 +93,21 @@ export class DepartmentEffects {
   );
 
   // Update one Department
-  updateDepartment$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(updateDepartment),
-        concatMap((action) =>
-        this.graphql.fetch(UPDATE_DEPARTMENT,{ updateDepartmentId: action.department.id,
-  updatedDepartmentData: action.department.changes})
-    
-        ),
-       ),
-    { dispatch: false }
+  updateDepartment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateDepartment),
+      concatMap((action) =>
+        this.graphql
+          .fetch(UPDATE_DEPARTMENT, {
+            updateDepartmentId: action.department.id,
+            updatedDepartmentData: action.department.changes,
+          })
+          .pipe(
+            map(() => updateDepartmentSuccess()),
+            catchError((error) => of(updateDepartmentFailure({ error })))
+          )
+      )
+    )
   );
 
   deleteDepartment$ = createEffect(() =>
@@ -119,4 +131,3 @@ export class DepartmentEffects {
     private router: Router
   ) {}
 }
-

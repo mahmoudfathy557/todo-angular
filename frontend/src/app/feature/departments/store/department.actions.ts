@@ -4,8 +4,8 @@ import { Department } from '../department.model';
 
 //  Get All Departments
 export const loadDepartments = createAction(
-  '[Department List Component] Load Departments', 
- );
+  '[Department List Component] Load Departments'
+);
 
 export const loadDepartmentsSuccess = createAction(
   '[Department List Effect] Load Departments Success',
@@ -16,7 +16,6 @@ export const loadDepartmentsFailure = createAction(
   '[Department List Effect] Load Departments Failure',
   props<{ error: any }>()
 );
-
 
 // Add Department
 export const addDepartment = createAction(
@@ -34,7 +33,6 @@ export const addDepartmentFailure = createAction(
   props<{ error: any }>()
 );
 
-
 // Get One Department
 export const loadDepartment = createAction(
   '[Department Component] load Department',
@@ -51,13 +49,19 @@ export const loadDepartmentFailure = createAction(
   props<{ error: any }>()
 );
 
-
 export const updateDepartment = createAction(
   '[Department Add Component ] Update Department',
   props<{ department: Update<Department> }>()
 );
 
- 
+export const updateDepartmentSuccess = createAction(
+  '[Department Add Component ] Update Department Success'
+);
+
+export const updateDepartmentFailure = createAction(
+  '[Department Add Component ] Update Department Failure',
+  props<{ error: any }>()
+);
 
 // Delete One Department
 export const deleteDepartment = createAction(
@@ -74,5 +78,3 @@ export const deleteDepartmentFailure = createAction(
   '[Department Delete Effect] Delete Department Failure',
   props<{ error: any }>()
 );
-
- 

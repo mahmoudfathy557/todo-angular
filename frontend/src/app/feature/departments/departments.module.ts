@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromDepartment from './store/department.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { DepartmentEffects } from './store/department.effects';
+import { rootReducers } from './store/root.reducer';
 
 @NgModule({
   declarations: [AddDepartmentComponent],
@@ -19,10 +20,7 @@ import { DepartmentEffects } from './store/department.effects';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    StoreModule.forFeature(
-      fromDepartment.departmentsFeatureKey,
-      fromDepartment.reducer
-    ),
+    StoreModule.forFeature(fromDepartment.departmentsFeatureKey, rootReducers),
     EffectsModule.forFeature([DepartmentEffects]),
   ],
 })

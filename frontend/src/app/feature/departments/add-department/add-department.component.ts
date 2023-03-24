@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Department } from '../department.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,6 +18,7 @@ import {
 } from '../store/department.actions';
 import { selectedDepartment } from '../store/department.selectors';
 import { Update } from '@ngrx/entity';
+import { Subscribable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-department',
@@ -25,12 +26,12 @@ import { Update } from '@ngrx/entity';
   styleUrls: ['./add-department.component.css'],
   providers: [MessageService],
 })
-export class AddDepartmentComponent implements OnInit {
+export class AddDepartmentComponent implements OnInit, OnDestroy {
   registrationForm: FormGroup;
   depId: string;
   editedDep?: Department;
   msgs: Message[] = [];
-
+  subscription:Subscription
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -44,18 +45,22 @@ export class AddDepartmentComponent implements OnInit {
     this.registrationForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(1)]],
       manager: ['', [Validators.required, Validators.minLength(3)]],
-      emps_no: [, [Validators.required]],
+      emps_no: [0, [Validators.required]],
     });
 
     const depId = this.route.snapshot.paramMap.get('id');
     //edit emp
     if (depId) {
       this.depId = depId;
-      this.store.dispatch(loadDepartment({ id: depId }));
+      this.store.dispatch(loadDepartment({ id: depId }))
       this.store.pipe(select(selectedDepartment)).subscribe((dep) => {
         this.registrationForm.patchValue(dep ? dep : {});
       });
     }
+  }
+
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe()
   }
 
   get name() {
@@ -71,15 +76,19 @@ export class AddDepartmentComponent implements OnInit {
   }
 
   onSubmit() {
+
+    console.log('on submit');
     // edit emp
     if (this.depId) {
+     
       const updatedProduct: Update<Department> = {
         id: this.depId,
         changes: this.registrationForm.value,
       };
+      
       // const updatedDep = { ...this.registrationForm.value } as Department;
       this.store.dispatch(updateDepartment({ department: updatedProduct }));
-      this.store.subscribe((state) => {
+    this.subscription=  this.store.subscribe((state) => {
         console.log(state);
         if (state.error) {
           this.showViaService('error', state.error.message);
@@ -88,19 +97,20 @@ export class AddDepartmentComponent implements OnInit {
         }
       });
     }
-
     //  add emp
     else {
+      console.log('add submit');
+
       const newDep = this.registrationForm.value as Department;
       this.store.dispatch(addDepartment({ department: newDep }));
-      this.store.subscribe((state) => {
-        console.log(state);
-        if (state.error) {
-          this.showViaService('error', state.error.message);
-        } else {
-          this.showViaService('success', 'New Department is added');
-        }
-      });
+    this.subscription = this.store.subscribe((state) => {
+      console.log(state);
+      if (state.error) {
+        this.showViaService('error', state.error.message);
+      } else {
+        this.showViaService('success', 'New Department is added');
+      }
+    });
     }
   }
 

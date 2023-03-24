@@ -11,6 +11,7 @@ import { DepartmentState } from '../store/department.reducer';
 import { Store, select } from '@ngrx/store';
 import { selectDepartments } from '../store/department.selectors';
 import { deleteDepartment, loadDepartments } from '../store/department.actions';
+import { selectDepartmentsState } from '../store/root.reducer';
 
 @Component({
   selector: 'app-departments-list',
@@ -29,7 +30,9 @@ export class DepartmentsListComponent implements OnInit {
   async getDeps() {
     this.store.dispatch(loadDepartments());
 
-    this.deps$ = this.store.pipe(select(selectDepartments));
+    this.deps$ = this.store.pipe(select(selectDepartmentsState));
+     
+     
   }
 
   ngOnInit() {

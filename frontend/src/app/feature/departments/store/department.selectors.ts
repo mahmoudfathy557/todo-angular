@@ -10,7 +10,7 @@ import {
 export const selectDepartmentsFeature =
   createFeatureSelector<DepartmentState>(departmentsFeatureKey);
 
-export const selectDepartments = createSelector(selectDepartmentsFeature, selectAll);
+export const selectDepartments = createSelector(selectDepartmentsFeature, (state:DepartmentState)=>state.departments);
 
 export const selectedDepartment = createSelector(
   selectDepartmentsFeature,

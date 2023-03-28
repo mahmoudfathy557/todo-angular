@@ -1,18 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Department } from '../department.model';
-import {
-  GET_DEPARTMENT,
-  GET_DEPARTMENTS,
-  REMOVE_DEPARTMENT,
-} from '../graphql-queries';
+ 
 import { Observable } from 'rxjs';
 import { DepartmentState } from '../store/department.reducer';
 import { Store, select } from '@ngrx/store';
 import { selectDepartments } from '../store/department.selectors';
 import { deleteDepartment, loadDepartments } from '../store/department.actions';
-import { selectDepartmentsState } from '../store/root.reducer';
-
+ 
 @Component({
   selector: 'app-departments-list',
   templateUrl: './departments-list.component.html',
@@ -30,7 +25,7 @@ export class DepartmentsListComponent implements OnInit {
   async getDeps() {
     this.store.dispatch(loadDepartments());
 
-    this.deps$ = this.store.pipe(select(selectDepartmentsState));
+    this.deps$ = this.store.pipe(select(selectDepartments));
      
      
   }

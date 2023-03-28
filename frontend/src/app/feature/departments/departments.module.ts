@@ -9,7 +9,9 @@ import { StoreModule } from '@ngrx/store';
 import * as fromDepartment from './store/department.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { DepartmentEffects } from './store/department.effects';
-import { rootReducers } from './store/root.reducer';
+  import { addDepReducer, addDepartmentFeatureKey } from './add-department/add-department.reducer';
+import { NgrxFormsModule } from 'ngrx-forms';
+ 
 
 @NgModule({
   declarations: [AddDepartmentComponent],
@@ -20,7 +22,12 @@ import { rootReducers } from './store/root.reducer';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    StoreModule.forFeature(fromDepartment.departmentsFeatureKey, rootReducers),
+    NgrxFormsModule,
+    StoreModule.forFeature(
+      fromDepartment.departmentsFeatureKey,
+      fromDepartment.reducer
+    ),
+    StoreModule.forFeature(addDepartmentFeatureKey, addDepReducer),
     EffectsModule.forFeature([DepartmentEffects]),
   ],
 })

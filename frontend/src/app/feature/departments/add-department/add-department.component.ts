@@ -10,15 +10,22 @@ import {
 } from '../graphql-queries';
 import { Apollo } from 'apollo-angular';
 import { DepartmentState } from '../store/department.reducer';
-import { Store, select } from '@ngrx/store';
+import {  Store, select } from '@ngrx/store';
 import {
   addDepartment,
   loadDepartment,
   updateDepartment,
 } from '../store/department.actions';
-import { selectedDepartment } from '../store/department.selectors';
+import { selectError, selectedDepartment } from '../store/department.selectors';
 import { Update } from '@ngrx/entity';
-import { Subscribable, Subscription } from 'rxjs';
+import { Observable, Subscription, catchError, filter, map, take } from 'rxjs';
+import {
+  FormValue,
+  INITIAL_STATE,
+  SetSubmittedValueAction,
+  State,
+} from './add-department.reducer';
+import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
 
 @Component({
   selector: 'app-add-department',
@@ -27,90 +34,101 @@ import { Subscribable, Subscription } from 'rxjs';
   providers: [MessageService],
 })
 export class AddDepartmentComponent implements OnInit, OnDestroy {
+  formState$: Observable<FormGroupState<FormValue>>;
+  submittedValue$: Observable<FormValue | undefined>;
+
   registrationForm: FormGroup;
   depId: string;
   editedDep?: Department;
   msgs: Message[] = [];
-  subscription:Subscription
+  subscription: Subscription | undefined;
+  error: Observable<any>;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private apollo: Apollo,
-    private store: Store<DepartmentState>
-  ) {}
+    private store: Store<State>,
+    private depStore: Store<DepartmentState>
+  ) {
+    this.formState$ = store.pipe(select((s) => s.ngForm.formState));
+    this.submittedValue$ = store.pipe(select((s) => s.ngForm.submittedValue));
+  }
 
   ngOnInit(): void {
-    this.registrationForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(1)]],
-      manager: ['', [Validators.required, Validators.minLength(3)]],
-      emps_no: [0, [Validators.required]],
-    });
-
     const depId = this.route.snapshot.paramMap.get('id');
-    //edit emp
+
     if (depId) {
       this.depId = depId;
-      this.store.dispatch(loadDepartment({ id: depId }))
-      this.store.pipe(select(selectedDepartment)).subscribe((dep) => {
-        this.registrationForm.patchValue(dep ? dep : {});
-      });
+      this.store.dispatch(loadDepartment({ id: depId }));
     }
   }
 
   ngOnDestroy(): void {
-      this.subscription.unsubscribe()
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      
+    }
+    this.store.dispatch(
+      new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value)
+    );
+
+    this.store.dispatch(new ResetAction(INITIAL_STATE.id));
   }
 
-  get name() {
-    return this.registrationForm.get('name');
-  }
-
-  get manager() {
-    return this.registrationForm.get('manager');
-  }
-
-  get emps_no() {
-    return this.registrationForm.get('emps_no');
-  }
-
-  onSubmit() {
-
-    console.log('on submit');
+  submit() {
     // edit emp
     if (this.depId) {
-     
-      const updatedProduct: Update<Department> = {
-        id: this.depId,
-        changes: this.registrationForm.value,
-      };
-      
-      // const updatedDep = { ...this.registrationForm.value } as Department;
-      this.store.dispatch(updateDepartment({ department: updatedProduct }));
-    this.subscription=  this.store.subscribe((state) => {
-        console.log(state);
-        if (state.error) {
-          this.showViaService('error', state.error.message);
-        } else {
-          this.showViaService('success', 'Department is updated Successfully');
-        }
-      });
+      this.subscription = this.formState$
+        .pipe(
+          take(1),
+          filter((s) => s.isValid),
+          map((fs) => {
+            const changes = { ...fs.value };
+            delete changes['id'];
+
+            const updatedProduct: Update<Department> = {
+              id: this.depId,
+              changes: changes,
+            };
+
+            this.store.dispatch(
+              updateDepartment({ department: updatedProduct })
+            );
+
+            this.depStore.pipe(select(selectError)).subscribe((res) => {
+              if (res) {
+                this.showViaService('error', res);
+              } else {
+                this.showViaService(
+                  'success',
+                  'Department is updated Successfully'
+                );
+              }
+            });
+          })
+        )
+        .subscribe();
     }
     //  add emp
     else {
-      console.log('add submit');
+      this.subscription = this.formState$
+        .pipe(
+          take(1),
+          filter((s) => s.isValid),
+          map((fs) => {
+            this.store.dispatch(addDepartment({ department: fs.value }));
 
-      const newDep = this.registrationForm.value as Department;
-      this.store.dispatch(addDepartment({ department: newDep }));
-    this.subscription = this.store.subscribe((state) => {
-      console.log(state);
-      if (state.error) {
-        this.showViaService('error', state.error.message);
-      } else {
-        this.showViaService('success', 'New Department is added');
-      }
-    });
+            this.depStore.pipe(select(selectError)).subscribe((res) => {
+              if (res) {
+                this.showViaService('error', res);
+              } else {
+                this.showViaService('success', 'New Department is added');
+              }
+            });
+          })
+        )
+        .subscribe();
     }
   }
 

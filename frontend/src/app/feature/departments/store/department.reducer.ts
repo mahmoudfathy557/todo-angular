@@ -18,7 +18,6 @@ export const adapter: EntityAdapter<Department> =
 export const initialState: DepartmentState = adapter.getInitialState({
   // additional entity state properties
   departments: [],
-
   error: undefined,
   selectedDepartment: undefined,
 });
@@ -36,7 +35,8 @@ export const reducer = createReducer(
 
   // Get All Departments
   on(DepartmentActions.loadDepartmentsSuccess, (state, action) => {
-    return { ...state, departments: action.departments };
+    // return { ...state, departments: action.departments };
+    return adapter.addMany(action.departments, state);
   }),
   on(DepartmentActions.loadDepartmentsFailure, (state, action) => {
     return { ...state, error: action.error };
@@ -53,6 +53,12 @@ export const reducer = createReducer(
   // Update One Department
   on(DepartmentActions.updateDepartment, (state, action) =>
     adapter.updateOne(action.department, state)
+  ),
+  on(DepartmentActions.updateDepartmentFailure, (state, action) =>
+    {
+     return { ...state, error: action.error };
+    
+    }
   ),
 
   // Delete One Department

@@ -1,74 +1,102 @@
- <div class="wrapper">
+<ng-container
+  exampleName="add department form"
+  githubLinkOverride="add department form"
+  *ngIf="formState$ | async as formState"
+>
+  <div class="wrapper">
+    <h1>Mutate Department list</h1>
 
-  <h1>Mutate Department list</h1>
-
-  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" >
-   
- 
-   <!-- name -->
-    <span class="p-float-label custom-input">
-       <input id="float-input" type="text" pInputText 
-           [class.is-invalid]="name?.invalid && name?.touched"
-      formControlName="name"
-       > 
-       <label for="float-input">name</label>
-           <div *ngIf="name?.invalid && name?.touched">
-      <small class="text-danger" *ngIf="name.errors?.required"
-        >name is required</small
-      >
-      <small class="text-danger" *ngIf="name.errors?.minlength"
-        >name must be at least 3 characters</small
-      >
-    </div>
-   </span>
+    <form [ngrxFormState]="formState" (submit)="submit()">
+      <!-- name -->
+      <span class="p-float-label custom-input">
+        <input
+          id="float-input"
+          type="text"
+          pInputText
+          [ngrxFormControlState]="formState.controls.name"
+        />
+        <label for="float-input">name</label>
+        <div
+          *ngIf="
+            formState.controls.name.isInvalid &&
+            formState.controls.name.isTouched
+          "
+        >
+          <small class="text-danger" *ngIf="formState.errors._name?.required"
+            >name is required</small
+          >
+          <!-- <small class="text-danger" *ngIf="name.errors?.minlength"
+          >name must be at least 3 characters</small -->
+          >
+        </div>
+      </span>
 
       <!-- manager -->
-    <span class="p-float-label custom-input">
-       <input id="float-input" type="text" pInputText 
-           [class.is-invalid]="manager?.invalid && manager?.touched"
-      formControlName="manager"
-       > 
-       <label for="float-input">manager</label>
-           <div *ngIf="manager?.invalid && manager?.touched">
-      <small class="text-danger" *ngIf="manager.errors?.required"
-        >manager is required</small
-      >
-      <small class="text-danger" *ngIf="manager.errors?.minlength"
-        >manager must be at least 3 characters</small
-      >
-    </div>
-   </span>
+      <span class="p-float-label custom-input">
+        <input
+          id="float-input"
+          type="text"
+          pInputText
+          [ngrxFormControlState]="formState.controls.manager"
+        />
+        <label for="float-input">manager</label>
+        <div
+          *ngIf="
+            formState.controls.manager.isInvalid &&
+            formState.controls.manager.isTouched
+          "
+        >
+          <small class="text-danger" *ngIf="formState.errors._manager?.required"
+            >manager is required</small
+          >
+          <!-- <small class="text-danger" *ngIf="manager.errors?.minlength"
+          >manager must be at least 3 characters</small -->
+          >
+        </div>
+      </span>
 
-       <!-- emps no -->
-    <span class="p-float-label custom-input">
-       <input id="float-input" type="number" pInputText 
-           [class.is-invalid]="emps_no?.invalid && emps_no?.touched"
-      formControlName="emps_no"
-       > 
-       <label for="float-input">Employees number</label>
-           <div *ngIf="emps_no?.invalid && emps_no?.touched">
-      <small class="text-danger" *ngIf="emps_no.errors?.required"
-        >Employees number is required</small
-      >
-      <small class="text-danger" *ngIf="emps_no.errors?.minlength"
-        >emps_no must be at least 3 characters</small
-      >
-    </div>
-   </span>
+      <!-- emps no -->
+      <span class="p-float-label custom-input">
+        <input
+          id="float-input"
+          type="number"
+          pInputText
+          [ngrxFormControlState]="formState.controls.emps_no"
+        />
+        <label for="float-input">Employees number</label>
+        <div
+          *ngIf="
+            formState.controls.emps_no.isInvalid &&
+            formState.controls.emps_no.isTouched
+          "
+        >
+          <small class="text-danger" *ngIf="formState.errors._emps_no?.required"
+            >Employees number is required</small
+          >
+          <!-- <small class="text-danger" *ngIf="emps_no.errors?.minlength"
+          >emps_no must be at least 3 characters</small -->
+          >
+        </div>
+      </span>
+
+      <button
+        color="primary"
+        type="submit"
+        [disabled]="formState.isInvalid && formState.isSubmitted"
+        pButton
+        label="Submit"
+      ></button>
+    </form>
+
     
- 
-      <button   color="primary"
-     type="submit"
-     [disabled]="!registrationForm.valid"
-    pButton
-    label="Submit"
-   ></button>
-  
-  </form>
+    <p-messages></p-messages>
+    
+  </div>
 
-  {{this.registrationForm.value | json}}
-<p-messages></p-messages>
-
-
- 
- </div>
+  <div *ngIf="formState.isInvalid && formState.isSubmitted">Plz Fill the form correctly</div>
+    <div *ngIf="submittedValue$ | async">
+    The form was submitted with the following value:
+    <br />
+    <pre>{{ submittedValue$ | async | json }}</pre>
+  </div>
+</ng-container>

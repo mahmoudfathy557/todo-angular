@@ -1,4 +1,4 @@
- import { createFeatureSelector, createSelector } from '@ngrx/store';
+ import { createFeatureSelector, createSelector, select } from '@ngrx/store';
 import {
  DepartmentState,
     departmentsFeatureKey,
@@ -10,7 +10,7 @@ import {
 export const selectDepartmentsFeature =
   createFeatureSelector<DepartmentState>(departmentsFeatureKey);
 
-export const selectDepartments = createSelector(selectDepartmentsFeature, (state:DepartmentState)=>state.departments);
+export const selectDepartments = createSelector(selectDepartmentsFeature,  selectAll);
 
 export const selectedDepartment = createSelector(
   selectDepartmentsFeature,

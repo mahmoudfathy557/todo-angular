@@ -1,6 +1,6 @@
 // import { gql } from 'apollo-angular';
 
-import { gql } from "./graphql.service";
+import { gql } from './graphql.service';
 
 export const GET_DEPARTMENTS = gql`
   query getDepartments {
@@ -25,14 +25,13 @@ export const GET_DEPARTMENT = gql`
 `;
 
 export const ADD_DEPARTMENT = gql`
- mutation addDepartment($newDepartmentData: NewDepartmentInput!) {
-  addDepartment(newDepartmentData: $newDepartmentData) {
-    emps_no
-    id
-    manager
-    name
-  }
-
+  mutation AddDepartment($newDepartmentData: CreateDepartmentDto!) {
+    addDepartment(newDepartmentData: $newDepartmentData) {
+      emps_no
+      id
+      manager
+      name
+    }
   }
 `;
 
@@ -47,11 +46,10 @@ export const REMOVE_DEPARTMENT = gql`
   }
 `;
 
-
 export const UPDATE_DEPARTMENT = gql`
   mutation updateDepartment(
     $updateDepartmentId: String!
-    $updatedDepartmentData: NewDepartmentInput!
+    $updatedDepartmentData: UpdateDepartmentDto!
   ) {
     updateDepartment(
       id: $updateDepartmentId

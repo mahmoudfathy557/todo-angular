@@ -1,0 +1,1 @@
+import * as DepartmentResolver from './department.resolver';
